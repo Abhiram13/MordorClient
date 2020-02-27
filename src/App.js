@@ -20,6 +20,9 @@ class App extends React.Component {
 
   componentWillMount() {
     let XHTTP = new XMLHttpRequest();
+    XHTTP.open('POST', '/app.js', true);
+    XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    XHTTP.setRequestHeader('Access-Control-Allow-Origin', '*');
     XHTTP.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         console.log('DATA SENT');
@@ -28,9 +31,8 @@ class App extends React.Component {
         console.log('FAILED FROM CLIENT SIDE');
         console.log(XHTTP);
       }
-    }
-    XHTTP.open('POST', '/app.js', true)
-    XHTTP.send({value: 'HEllo from React'});
+    }        
+    XHTTP.send(JSON.stringify({value: 'Hello From React'}));
   }
 
   componentDidMount() {
