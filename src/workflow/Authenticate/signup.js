@@ -6,8 +6,10 @@ class SignUp extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         nameValue: '',
-         secondNameValue: '',
+         username: '',
+         firstname: '',
+         lastname: '',
+         password: '',
       }
       this.handleChange = this.handleChange.bind(this);
    }
@@ -16,15 +18,35 @@ class SignUp extends React.Component {
     * @param {object} event - returns the element by id which triggered the Event
     */
    handleChange = event => {
-      if (event.target.id === 'name') {
-         this.setState({ nameValue: event.target.value })
-      } else {
-         this.setState({ secondNameValue: event.target.value })
+      switch(event.target.id) {
+         case 'username':
+            this.setState({
+               username: event.target.value,
+            });
+            break;
+         case 'firstname':
+            this.setState({
+               firstname: event.target.value,
+            });
+            break;
+         case 'lastname':
+            this.setState({
+               lastname: event.target.value,
+            });
+            break;
+         case 'password':
+            this.setState({
+               password: event.target.value,
+            });
+            break;
+         default:
+            return null;
       }
    }
 
    sendDate() {
-      if (this.state.nameValue && this.state.secondNameValue) {
+      const { username, firstname, lastname, password } = this.state;
+      if (username && firstname && lastname && password) {
          return postRequest('post', '/app.js', this.state);
       }
    }
@@ -34,9 +56,34 @@ class SignUp extends React.Component {
          <div className="App">
             <div className="container pt-5">
                <div className="d-flex col-sm-5 p-0 justify-content-between">
-                  <input type="text" id="name" value={this.state.nameValue} onChange={this.handleChange} />
-                  <input type="text" id="secondName" value={this.state.secondNameValue} onChange={this.handleChange} />
-                  <button type="button" className="btn btn-info" onClick={() => this.sendDate()}>Submit</button>
+                  <input
+                     type="text"
+                     id="username"
+                     placeholder="User Name"
+                     value={this.state.username}
+                     onChange={this.handleChange} />
+                  <input
+                     type="text"
+                     id="firstname"
+                     placeholder="First Name"
+                     value={this.state.firstname}
+                     onChange={this.handleChange} />
+                  <input
+                     type="text"
+                     id="lastname"
+                     placeholder="Last Name"
+                     value={this.state.lastname}
+                     onChange={this.handleChange} />
+                  <input
+                     type="text"
+                     id="password"
+                     placeholder="Password"
+                     value={this.state.password}
+                     onChange={this.handleChange} />
+                  <button
+                     type="button"
+                     className="btn btn-info"
+                     onClick={() => this.sendDate()}>Submit</button>
                </div>
             </div>
          </div>

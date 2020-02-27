@@ -6,9 +6,7 @@ import Auth from './workflow/Authenticate/auth'
 function App() {
   return (
     <Router>      
-      <Route exact path="/" 
-      // @ts-ignore
-      component={Auth} />
+      <Route exact path="/" component={Auth} />
     </Router>
   )
 }
