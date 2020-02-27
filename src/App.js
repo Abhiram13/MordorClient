@@ -1,5 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import React from 'react';
+import postRequest from '../src/helpers/helper';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,42 +12,19 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  async callBackendAPI() {
-    const response = await fetch('/get');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
-
-  componentWillMount() {
-    let XHTTP = new XMLHttpRequest();
-    XHTTP.open('POST', '/app.js', true);
-    XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    XHTTP.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log('DATA SENT');
-        console.log(XHTTP);
-      } else {
-        console.log('FAILED FROM CLIENT SIDE');
-        console.log(XHTTP);
-      }
-    }        
-    XHTTP.send(JSON.stringify({value: 'Hello From React'}));
-  }
-
-  componentDidMount() {
-    console.log('MOUNTED');
-    this.callBackendAPI()
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  }  
-
+  /**
+   * @param {object} event - returns the element by id which triggered the Event
+   */
   handleChange = event => {
     if (event.target.id === 'name') {
       this.setState({ nameValue: event.target.value })
     } else {
       this.setState({ secondNameValue: event.target.value })
     }
+  }
+
+  sendDate() {
+    postRequest('post', '/app.js', this.state);
   }
 
   render() {
@@ -56,7 +34,7 @@ class App extends React.Component {
           <div className="d-flex col-sm-5 p-0 justify-content-between">
             <input type="text" id="name" value={this.state.nameValue} onChange={this.handleChange} />
             <input type="text" id="secondName" value={this.state.secondNameValue} onChange={this.handleChange} />
-            <button type="button" className="btn btn-info">Submit</button>
+            <button type="button" className="btn btn-info" onClick={() => this.sendDate()}>Submit</button>
           </div>
         </div>
       </div>
