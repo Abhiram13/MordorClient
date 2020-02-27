@@ -1,6 +1,5 @@
 /* eslint-disable no-lone-blocks */
 import React from 'react';
-import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,18 +14,27 @@ class App extends React.Component {
   async callBackendAPI() {
     const response = await fetch('/get');
     const body = await response.json();
-    console.log(await response);    
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  loadDoc() {
-    axios.post('/get', {name: 'Abhiram'})
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+  componentWillMount() {
+    let XHTTP = new XMLHttpRequest();
+    XHTTP.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log('DATA SENT');
+        console.log(XHTTP);
+      } else {
+        console.log('FAILED FROM CLIENT SIDE');
+        console.log(XHTTP);
+      }
+    }
+    XHTTP.open('POST', '/app.js', true)
+    XHTTP.send({value: 'HEllo from React'});
   }
 
   componentDidMount() {
+    console.log('MOUNTED');
     this.callBackendAPI()
       .then(res => console.log(res))
       .catch(err => console.log(err));
@@ -41,7 +49,6 @@ class App extends React.Component {
   }
 
   render() {
-    {this.loadDoc()}
     return (
       <div className="App">
         <div className="container pt-5">
