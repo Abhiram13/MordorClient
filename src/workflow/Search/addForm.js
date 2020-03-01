@@ -61,7 +61,6 @@ class Form extends React.Component {
    }
 
    render() {
-      console.log(this.state);
       return (
          <React.Fragment>
             <section className="container p-0 mx-auto mt-5">
