@@ -12,6 +12,7 @@ export default function postRequest(method, url, data) {
       if (this.readyState === 4 && this.status === 200) {
          console.log('DATA SENT');
          console.log(XHTTP);
+         return XHTTP;
       }
    }
    XHTTP.send(JSON.stringify(data));

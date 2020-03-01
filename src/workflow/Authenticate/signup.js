@@ -1,6 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import React from 'react';
-import postRequest from '../../helpers/helper';
+import { withRouter } from 'react-router-dom';
 
 class SignUp extends React.Component {
    constructor(props) {
@@ -12,6 +12,7 @@ class SignUp extends React.Component {
          password: '',
          login_username: '',
          login_password: '',
+         access: false,
       }
       this.handleChange = this.handleChange.bind(this);
    }
@@ -20,7 +21,7 @@ class SignUp extends React.Component {
     * @param {object} event - returns the element by id which triggered the Event
     */
    handleChange = event => {
-      switch(event.target.id) {
+      switch (event.target.id) {
          case 'username':
             this.setState({
                username: event.target.value,
@@ -56,10 +57,25 @@ class SignUp extends React.Component {
       }
    }
 
+   postRequest(method, url, data) {
+      let XHTTP = new XMLHttpRequest();
+      XHTTP.open(method, url, true);
+      XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      XHTTP.onreadystatechange = () => {
+         if (XHTTP.readyState === 4 && XHTTP.status === 200) {
+            let response = JSON.parse(XHTTP.responseText);
+            if (response.access) {
+               this.props.history.push('/home');
+            }
+         }
+      }
+      XHTTP.send(JSON.stringify(data));
+   }
+
    sendDate() {
       const { username, firstname, lastname, password } = this.state;
       if (username && firstname && lastname && password) {
-         return postRequest('post', '/signIn.js', this.state);
+         return this.postRequest('post', '/signIn.js', this.state);
       }
    }
 
@@ -68,9 +84,9 @@ class SignUp extends React.Component {
       let obj = {
          username: login_username,
          password: login_password,
-      }      
+      }
       if (login_password && login_username) {
-         return postRequest('post', '/login.js', obj);
+         return this.postRequest('post', '/login.js', obj);
       }
    }
 
@@ -78,7 +94,31 @@ class SignUp extends React.Component {
       return (
          <div className="App">
             <div className="container pt-5">
-               <div className="d-flex col-sm-5 p-0 justify-content-between">
+               <div className="col-sm-6 p-0 mx-auto rounded shadow">
+                  <div className="p-3">
+                     <h4 className="pt-2">Login</h4>
+                     <hr className="" />
+                     <input
+                        type="text"
+                        id="loginusername"
+                        className="d-block col-sm p-0 rounded border p-2 mb-3"
+                        placeholder="User Name"
+                        value={this.state.login_username}
+                        onChange={this.handleChange} />
+                     <input
+                        type="text"
+                        id="loginpassword"
+                        className="d-block col-sm p-0 rounded border p-2 mb-3"
+                        placeholder="Password"
+                        value={this.state.login_password}
+                        onChange={this.handleChange} />
+                     <button
+                        type="button"
+                        className="btn btn-info d-block mx-auto col-sm-3 py-1"
+                        onClick={() => this.sendLoginCred()}>Submit</button>
+                  </div>
+               </div>
+               {/* <div className="d-flex col-sm-5 p-0 justify-content-between">
                   <input
                      type="text"
                      id="username"
@@ -107,30 +147,11 @@ class SignUp extends React.Component {
                      type="button"
                      className="btn btn-info"
                      onClick={() => this.sendDate()}>Submit</button>
-               </div>
-
-               <div className="d-flex col-sm-5 p-0 justify-content-between">
-                  <input
-                     type="text"
-                     id="loginusername"
-                     placeholder="User Name"
-                     value={this.state.login_username}
-                     onChange={this.handleChange} />
-                  <input
-                     type="text"
-                     id="loginpassword"
-                     placeholder="First Name"
-                     value={this.state.login_password}
-                     onChange={this.handleChange} />                  
-                  <button
-                     type="button"
-                     className="btn btn-info"
-                     onClick={() => this.sendLoginCred()}>Submit</button>
-               </div>
+               </div> */}
             </div>
          </div>
       );
    }
 }
 
-export default SignUp;
+export default withRouter(SignUp);
