@@ -10,6 +10,8 @@ class SignUp extends React.Component {
          firstname: '',
          lastname: '',
          password: '',
+         login_username: '',
+         login_password: '',
       }
       this.handleChange = this.handleChange.bind(this);
    }
@@ -39,6 +41,16 @@ class SignUp extends React.Component {
                password: event.target.value,
             });
             break;
+         case 'loginusername':
+            this.setState({
+               login_username: event.target.value,
+            });
+            break;
+         case 'loginpassword':
+            this.setState({
+               login_password: event.target.value,
+            });
+            break;
          default:
             return null;
       }
@@ -47,7 +59,18 @@ class SignUp extends React.Component {
    sendDate() {
       const { username, firstname, lastname, password } = this.state;
       if (username && firstname && lastname && password) {
-         return postRequest('post', '/app.js', this.state);
+         return postRequest('post', '/signIn.js', this.state);
+      }
+   }
+
+   sendLoginCred() {
+      const { login_username, login_password } = this.state;
+      let obj = {
+         username: login_username,
+         password: login_password,
+      }      
+      if (login_password && login_username) {
+         return postRequest('post', '/login.js', obj);
       }
    }
 
@@ -84,6 +107,25 @@ class SignUp extends React.Component {
                      type="button"
                      className="btn btn-info"
                      onClick={() => this.sendDate()}>Submit</button>
+               </div>
+
+               <div className="d-flex col-sm-5 p-0 justify-content-between">
+                  <input
+                     type="text"
+                     id="loginusername"
+                     placeholder="User Name"
+                     value={this.state.login_username}
+                     onChange={this.handleChange} />
+                  <input
+                     type="text"
+                     id="loginpassword"
+                     placeholder="First Name"
+                     value={this.state.login_password}
+                     onChange={this.handleChange} />                  
+                  <button
+                     type="button"
+                     className="btn btn-info"
+                     onClick={() => this.sendLoginCred()}>Submit</button>
                </div>
             </div>
          </div>
