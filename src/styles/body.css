@@ -1,3 +1,51 @@
+body {
+   font-family: segoe-regular;
+}
+
 .shadow {
    box-shadow: 1px 1px 18px -7px;
+}
+
+.pointer {
+   cursor: pointer;
+}
+
+.effect {
+   transition: 0.2s;
+}
+
+.effect:hover {
+   background-color: #d7f5fa !important;
+   box-shadow: 0px 0px 28px #d8d8d8 !important;
+   transform: scale(1.05) !important;
+}
+
+/* SEGOE FONTS */
+
+@font-face {
+   font-family: segoe-regular;
+   font-weight: 400;
+   font-style: normal;
+   src: url('../Fonts/Segoe/Segoe\ UI.ttf');
+}
+
+@font-face {
+   font-family: segoe-regular;
+   font-weight: 400;
+   font-style: italic;
+   src: url('../Fonts/Segoe/Segoe\ UI\ Italic.ttf');
+}
+
+@font-face {
+   font-family: segoe-regular;
+   font-weight: 700;
+   font-style: normal;
+   src: url('../Fonts/Segoe/Segoe\ UI\ Bold.ttf');
+}
+
+@font-face {
+   font-family: segoe-regular;
+   font-weight: 700;
+   font-style: italic;
+   src: url('../Fonts/Segoe/Segoe\ UI\ Bold\ Italic.ttf');
 }
