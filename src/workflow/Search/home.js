@@ -1,6 +1,7 @@
 // @ts-nocheck
-import React, { Component, Fragment } from 'react';
-import Aside from './aside'
+import React, { Component, Fragment, createContext } from 'react';
+import Aside from './Aside/aside'
+import { ItemProvider } from '../../context/context'
 import { withRouter } from 'react-router-dom';
 
 class Home extends Component {
@@ -58,8 +59,10 @@ class Home extends Component {
       console.log(this.state.data);
       return (
          <Fragment>
-            <div className="container p-0 mx-auto d-flex justify-content-between mt-5">               
-               <Aside total={this.state.data.length} />
+            <div className="container p-0 mx-auto d-flex justify-content-between mt-5">
+               <ItemProvider value={this.state.data.length}>
+                  <Aside />
+               </ItemProvider>
                <div className="border rounded d-flex flex-wrap" style={{ width: '75%' }}>
                   {(this.state.data !== '') &&
                      this.state.data.map((item, i) => {
@@ -69,7 +72,7 @@ class Home extends Component {
                                  <div className="rounded w-100" style={{ height: '170px' }}>
                                     {
                                        (item.imageURL === "")
-                                          ? <div className="w-100 h-100" style={{ backgroundColor: 'red' }}></div>
+                                          ? <div className="w-100 h-100" style={{ backgroundColor: 'aliceblue' }}></div>
                                           : <img src={item.imageURL} className="w-100 h-100" alt={item.itemName} />
                                     }
                                  </div>
