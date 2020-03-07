@@ -7,7 +7,6 @@ export default class Details extends Component {
    }
 
    render() {
-      console.log(this.props.history.location);
       const { data } = this.props.history.location.state;
       return (
          <Fragment>

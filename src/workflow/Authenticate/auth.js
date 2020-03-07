@@ -59,7 +59,6 @@ class Auth extends React.Component {
       XHTTP.onreadystatechange = () => {
          if (XHTTP.readyState === 4 && XHTTP.status === 200) {
             let response = JSON.parse(XHTTP.responseText);
-            console.log(response);
             if (response.access) {
                this.props.history.push('/home');
             } else {

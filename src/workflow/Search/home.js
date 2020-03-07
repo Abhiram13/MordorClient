@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Component, Fragment, createContext } from 'react';
+import React, { Component, Fragment } from 'react';
 import Aside from './Aside/aside'
 import { ItemProvider } from '../../context/context'
 import { withRouter } from 'react-router-dom';
@@ -56,11 +56,10 @@ class Home extends Component {
    }
 
    render() {
-      console.log(this.state.data);
       return (
          <Fragment>
             <div className="container p-0 mx-auto d-flex justify-content-between mt-5">
-               <ItemProvider value={this.state.data.length}>
+               <ItemProvider value={{total: this.state.data.length, data: this.state.data}}>
                   <Aside />
                </ItemProvider>
                <div className="border rounded d-flex flex-wrap" style={{ width: '75%' }}>

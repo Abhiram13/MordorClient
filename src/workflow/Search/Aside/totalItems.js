@@ -8,8 +8,7 @@ export default function TotalItems(props) {
          <ItemConsumer>
             {
                (item) => {
-                  console.log(item)
-                  return <p className="m-0 p-0"><strong>{item}</strong></p>
+                  return <p className="m-0 p-0"><strong>{item.total}</strong></p>
                }
             }
          </ItemConsumer>         
