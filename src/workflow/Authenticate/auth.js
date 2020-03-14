@@ -14,17 +14,17 @@ class Auth extends React.Component {
       this.state = {
          loginData: '',
          signData: '',
-         userExist: true,
+         userExist: true, // tells if user exists or not
       }
    }
 
    /**
-    * @param {object} a - state object of Login Component
+    * @param {object} loginCredentials - state object of @function Login Component
     * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state
     * and once the state is updated, it calls @function postLoginRequest
     */
-   getLoginCredentials(a) {
-      this.setState({ loginData: a }, () => this.postLoginRequest('post', '/login.js', this.state.loginData));
+   getLoginCredentials(loginCredentials) {
+      this.setState({ loginData: loginCredentials }, () => this.postLoginRequest('post', '/login.js', this.state.loginData));
    }
 
    /**
@@ -36,12 +36,12 @@ class Auth extends React.Component {
    }
 
    /**
-    * @param {object} a - state object of SignIn Component
+    * @param {object} signInCredentials - state object of SignIn Component
     * @description - This function retrives data(SignUp Credentials) from SignIn Component(Child) and changes the state
     * and once the state is updated, it calls @function postSignInRequest
     */
-   getSignUpCredentials(a) {
-      this.setState({ signData: a }, () => this.postSignInRequest('post', '/signIn.js', this.state.signData));
+   getSignUpCredentials(signInCredentials) {
+      this.setState({ signData: signInCredentials }, () => this.postSignInRequest('post', '/signIn.js', this.state.signData));
    }
 
    /**

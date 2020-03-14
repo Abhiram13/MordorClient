@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-class SignUp extends PureComponent {
+class SignUp extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -45,8 +45,8 @@ class SignUp extends PureComponent {
 
    sendDate() {
       const { username, firstname, lastname, password } = this.state;
+      
       if (username && firstname && lastname && password) {
-         // return this.postRequest('post', '/signIn.js', this.state);
          this.props.create(this.state);
       }
    }
