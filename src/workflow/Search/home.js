@@ -1,80 +1,70 @@
 // @ts-nocheck
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Aside from './Aside/aside'
 import { ItemProvider } from '../../context/context'
 import { withRouter } from 'react-router-dom';
 
-class Home extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         data: '',
-      }
+async function callBackendAPI() {
+   const response = await fetch('/getItem');
+   const body = await response.json();
+
+   if (response.status !== 200) {
+      throw Error(body.message)
    }
+   return body;
+}
 
-   componentDidMount() {
-      this.callBackendAPI()
-         .then(res => this.setState({data: res.documents}))
-         .catch(err => console.log(err));
-   }
+function pushDetails(data, props) {
+   const string = `/details?${data._id}`;
+   props.history.push({
+      pathname: string,
+      state: {
+         data: data
+      },
+   });
+   window.location.reload();
+}
 
-   callBackendAPI = async () => {
-      const response = await fetch('/getItem');
-      const body = await response.json();
+function Home(props) {
+   const [data, setData] = useState('');
 
-      if (response.status !== 200) {
-         throw Error(body.message)
-      }
-      return body;
-   };
+   useEffect(function() {
+      callBackendAPI().then((res) => setData(res.documents)).catch((err) => console.log(err));
+   }, []);
 
-   formRedirection() {
-      this.props.history.push('/add');
-   }
-
-   pushDetails(data) {
-      const string = `/details?${data._id}`;
-      this.props.history.push({
-         pathname: string,
-         state: {
-            data: data
-         },
-      });
-      window.location.reload();
-   }
-
-   render() {
-      return (
-         <Fragment>
-            <div className="container p-0 mx-auto d-flex justify-content-between mt-5">
-               <ItemProvider value={{total: this.state.data.length, data: this.state.data}}>
-                  <Aside />
-               </ItemProvider>
-               <div className="border rounded d-flex flex-wrap" style={{ width: '75%' }}>
-                  {(this.state.data !== '') &&
-                     this.state.data.map((item, i) => {
-                        return (
-                           <Fragment key={item._id}>
-                              <div className="col-sm-3 p-2 rounded border mr-5 mb-4 pointer effect" onClick={() => this.pushDetails(item)}>
-                                 <div className="rounded w-100" style={{ height: '170px' }}>
-                                    {
-                                       (item.imageURL === "")
-                                          ? <div className="w-100 h-100" style={{ backgroundColor: 'aliceblue' }}></div>
-                                          : <img src={item.imageURL} className="w-100 h-100" alt={item.itemName} />
-                                    }
-                                 </div>
-                                 <h5 className="m-0 p-0 mt-2">{item.itemName}</h5>
+   return (
+      <Fragment>
+         <div className="container p-0 mx-auto d-flex justify-content-between mt-5">
+            <ItemProvider value={{ total: data.length, data: data }}>
+               <Aside />
+            </ItemProvider>
+            <div className="widthAuto border rounded d-flex flex-wrap" style={{ width: '75%' }}>
+               {(data !== '') &&
+                  data.map((item, i) => {
+                     return (
+                        <Fragment key={item._id}>
+                           <div className="col-sm-3 p-2 rounded border mr-5 mb-4 pointer effect ml30" title={`${item.itemName} | ${item.category}`} onClick={() => pushDetails(item, props)}>
+                              <div className="rounded w-100" style={{ height: '170px' }}>
+                                 {
+                                    (item.imageURL === "")
+                                       ? <div className="w-100 h-100" style={{ backgroundColor: 'aliceblue' }}></div>
+                                       : <img src={item.imageURL} className="w-100 h-100" alt={item.itemName} />
+                                 }
                               </div>
-                           </Fragment>
-                        )
-                     })
-                  }
-               </div>
+                              <div className="d-flex justify-content-between">
+                                 <h5 className="m-0 p-0 mt-2">{item.itemName}</h5>
+                                 <img src={item.categoryLogo} width="20" height="20" alt={item.category} className="mt-2" />
+                              </div>                              
+                           </div>
+                        </Fragment>
+                     )
+                  })
+               }
             </div>
-            <button onClick={() => this.formRedirection()}>Add</button>
-         </Fragment>
-      )
-   }
+         </div>
+         <button onClick={() => props.history.push('/add')}>Add</button>
+      </Fragment>
+   )
 }
 
 export default withRouter(Home);

@@ -20,6 +20,25 @@ body {
    transform: scale(1.05) !important;
 }
 
+@media only screen and (max-width: 500px) {
+   .widthAuto {
+      width: auto !important;
+   }
+
+   .widthAuto .ml30 {
+      margin-left: 30px !important;
+   }
+   .inherit {
+      display: initial !important;
+   }
+
+   aside { display: none !important; }
+
+   .inherit h2 {
+      margin-top: 30px !important;
+   }
+}
+
 /* SEGOE FONTS */
 
 @font-face {

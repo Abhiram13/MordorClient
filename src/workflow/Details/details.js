@@ -11,7 +11,7 @@ export default class Details extends Component {
       return (
          <Fragment>
             <div className="container mx-auto mt-5">
-               <div className="col-sm d-flex justify-content-between p-0">
+               <div className="col-sm d-flex justify-content-between p-0 inherit">
                   <div className="col-sm-4 p-0">
                      {
                         (data.imageURL !== "")
