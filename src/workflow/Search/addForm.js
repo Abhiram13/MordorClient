@@ -54,7 +54,7 @@ class Form extends React.Component {
       XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
       XHTTP.onreadystatechange = () => {
          if (XHTTP.readyState === 4 && XHTTP.status === 200) {
-            console.log(XHTTP);
+            //
          }
       }
       XHTTP.send(JSON.stringify(this.state));

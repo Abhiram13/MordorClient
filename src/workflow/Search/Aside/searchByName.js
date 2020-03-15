@@ -58,7 +58,6 @@ export default class SearchByName extends React.Component {
    }
 
    render() {
-      console.log(this.state);
       return (
          <Fragment>
             <input

@@ -15,21 +15,18 @@ async function callBackendAPI() {
 }
 
 function pushDetails(data, props) {
-   const string = `/details?${data._id}`;
-   props.history.push({
-      pathname: string,
-      state: {
-         data: data
-      },
-   });
+   props.history.push(`/details?${data._id}`);
    window.location.reload();
 }
 
 function Home(props) {
    const [data, setData] = useState('');
 
-   useEffect(function() {
-      callBackendAPI().then((res) => setData(res.documents)).catch((err) => console.log(err));
+   // will be called only in componentDidMount, but not on componentDidUpdate
+   useEffect(function () {
+      callBackendAPI()
+         .then((res) => setData(res.documents))
+         .catch((err) => console.log(err));
    }, []);
 
    return (

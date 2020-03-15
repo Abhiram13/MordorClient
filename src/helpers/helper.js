@@ -10,7 +10,6 @@ export default function postRequest(method, url, data) {
    XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
    XHTTP.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-         console.log(XHTTP);
          return XHTTP;
       }
    }

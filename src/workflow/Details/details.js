@@ -3,11 +3,22 @@ import React, { Component,Fragment } from 'react';
 export default class Details extends Component {
    constructor(props) {
       super(props);
-      this.state = {}
+      this.state = {
+         data: '',
+      }
+   }
+
+   async componentWillMount() {
+      let response = await fetch(`/details/${window.location.search.split('?')[1]}`);
+      let body = await response.json();
+      
+      this.setState({
+         data: body.documents[0],
+      });
    }
 
    render() {
-      const { data } = this.props.history.location.state;
+      const { data } = this.state;
       return (
          <Fragment>
             <div className="container mx-auto mt-5">
