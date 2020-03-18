@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, createRef } from 'react'
 import { withRouter } from 'react-router-dom';
 import Login from './login'
 import SignUp from './signin'
@@ -15,7 +15,9 @@ class Auth extends React.Component {
          loginData: '',
          signData: '',
          userExist: true, // tells if user exists or not
+         refDatafromChild: '',
       }
+      this.domRef = createRef();
    }
 
    /**
@@ -76,11 +78,17 @@ class Auth extends React.Component {
       XHTTP.onreadystatechange = () => {
          if (XHTTP.readyState === 4 && XHTTP.status === 200) {
             let response = JSON.parse(XHTTP.responseText);
-            alert(response.status);
+            alert((response.status) ? 'User has been Registered Successfully' : 'User has already been Registered');
             this.setState({ userExist: true });      
          }
       }
       XHTTP.send(JSON.stringify(data));
+   }
+
+   getRefData(a) {
+      this.setState({
+         refDatafromChild: a,
+      });
    }
 
    render() {
@@ -88,10 +96,10 @@ class Auth extends React.Component {
          <Fragment>
             {
                (this.state.userExist)
-               ? <Login credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
-               : <SignUp create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />                
-            }            
-         </Fragment>         
+                  ? <Login ref={this.domRef} getData={this.getRefData.bind(this)} credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
+                  : <SignUp create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />
+            }
+         </Fragment>
       );
    }   
 }

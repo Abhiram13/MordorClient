@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-lone-blocks */
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 function handleChange(event, stateFunction) {
    stateFunction(event.target.value);
@@ -20,9 +21,14 @@ function sendLoginCred(login, password, props) {
 function Login(props) {
    const [login_username, updateUserName] = useState('');
    const [login_password, updatePassword] = useState('');
+   const d = useRef();
+
+   useEffect(function() {
+      props.getData(d);
+   }, []);
 
    return (
-      <div className="container pt-5">
+      <div className="container pt-5" ref={d}>
          <div className="col-sm-6 p-0 mx-auto rounded shadow">
             <div className="p-3">
                <h4 className="pt-2">Login</h4>
