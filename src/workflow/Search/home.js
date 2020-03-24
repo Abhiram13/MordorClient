@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Fragment, useState, useEffect, createRef } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Aside from './Aside/aside'
 import { ItemProvider } from '../../context/context'
 import { withRouter } from 'react-router-dom';
@@ -40,17 +40,21 @@ function Home(props) {
                   data.map((item, i) => {
                      return (
                         <Fragment key={item._id}>
-                           <div className="col-sm-3 p-2 rounded border mr-5 mb-4 pointer effect ml30" title={`${item.itemName} | ${item.category}`} onClick={() => pushDetails(item, props)}>
-                              <div className="rounded w-100" style={{ height: '170px' }}>
+                           <div
+                              className="col-sm-3 p-0 rounded border mr-5 mb-4 pointer effect position-relative"
+                              title={`${item.itemName} | ${item.category}`}
+                              onClick={() => pushDetails(item, props)}
+                              style={{ height: '200px' }}>
+                              <div className="rounded w-100 h-100">
                                  {
                                     (item.imageURL === "")
                                        ? <div className="w-100 h-100" style={{ backgroundColor: 'aliceblue' }}></div>
                                        : <img src={item.imageURL} className="w-100 h-100" alt={item.itemName} />
                                  }
                               </div>
-                              <div className="d-flex justify-content-between">
-                                 <h5 className="m-0 p-0 mt-2">{item.itemName}</h5>
-                                 <img src={item.categoryLogo} width="20" height="20" alt={item.category} className="mt-2" />
+                              <div className="d-flex justify-content-between position-absolute bg-white px-2 py-1 shadow" style={{ bottom: '10%', marginLeft: '25%', borderRadius: '20px' }}>
+                                 <h5 className="m-0 p-0" style={{ fontSize: 'medium' }}>{item.itemName}</h5>
+                                 <img src={item.categoryLogo} width="15" height="15" alt={item.category} className="align-self-center" />
                               </div>                              
                            </div>
                         </Fragment>
