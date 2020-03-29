@@ -20,6 +20,10 @@ class Auth extends React.Component {
       this.domRef = createRef();
    }
 
+   componentWillMount() {
+      localStorage.getItem('user') && this.props.history.push('/home')
+   }
+
    /**
     * @param {object} loginCredentials - state object of @function Login Component
     * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state
@@ -62,6 +66,8 @@ class Auth extends React.Component {
          if (XHTTP.readyState === 4 && XHTTP.status === 200) {
             let response = JSON.parse(XHTTP.responseText);
             if (response.access) {
+               let user = response.document[0];
+               localStorage.setItem('user', JSON.stringify(user));
                this.props.history.push('/home');
             } else {
                alert('Incorrect Username or Password');

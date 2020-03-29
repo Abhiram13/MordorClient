@@ -24,7 +24,7 @@ function Login(props) {
    const d = useRef();
 
    useEffect(function() {
-      props.getData(d);
+      props.getData(d);      
    }, []);
 
    return (
