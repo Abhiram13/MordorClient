@@ -62,11 +62,25 @@ class Home extends Component {
          return;
       }
 
-      array.filter(function(item) {
-         if (item.itemName.substring(0, character.length) === character) {
-            anotherArray.push(item);
-         }
-      });
+      switch(character.substring(0, 1)) {         
+         case '#':
+            if (character.length > 1) {
+               let str = character.slice(1, character.length);
+               array.filter(function (item) {
+                  if ((item.category.substring(0, character.length - 1)).toUpperCase() === str.toUpperCase()) {
+                     anotherArray.push(item);
+                  }
+               });
+            } else return;  
+            break;
+         default:
+            array.filter(function (item) {
+               if ((item.itemName.substring(0, character.length)).toUpperCase() === character.toUpperCase()) {
+                  anotherArray.push(item);
+               }
+            });
+            break;
+      }      
 
       this.setState({ data: anotherArray });
 
@@ -76,6 +90,7 @@ class Home extends Component {
    renderHome() {
       const { username, firstname, lastname } = JSON.parse(localStorage.getItem('user'));
       const { data } = this.state;
+      console.log(data);
 
       return (
          <Fragment>
