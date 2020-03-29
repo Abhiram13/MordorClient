@@ -9,7 +9,7 @@ export default function Aside(props) {
    return (      
       <aside className="border rounded" style={{ width: '22%' }}>
          <TotalItems />
-         <SearchByName />
+         <SearchByName getValue={props.getValueForSearch} />
       </aside>
    )
 }
