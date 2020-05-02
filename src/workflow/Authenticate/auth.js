@@ -17,7 +17,6 @@ class Auth extends React.Component {
          userExist: true, // tells if user exists or not
          refDatafromChild: '',
       }
-      this.domRef = createRef();
    }
 
    componentWillMount() {
@@ -66,9 +65,7 @@ class Auth extends React.Component {
          if (XHTTP.readyState === 4 && XHTTP.status === 200) {
             let response = JSON.parse(XHTTP.responseText);
             if (response.access) {
-               let user = response.document[0];
-               localStorage.setItem('user', JSON.stringify(user));
-               this.props.history.push('/home');
+               this.props.history.push(`${response.document[0]._id}/home`);
             } else {
                alert('Incorrect Username or Password');
             }            
@@ -102,7 +99,7 @@ class Auth extends React.Component {
          <Fragment>
             {
                (this.state.userExist)
-                  ? <Login ref={this.domRef} getData={this.getRefData.bind(this)} credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
+                  ? <Login getData={this.getRefData.bind(this)} credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
                   : <SignUp create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />
             }
          </Fragment>

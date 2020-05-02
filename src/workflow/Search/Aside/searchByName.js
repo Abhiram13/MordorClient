@@ -15,7 +15,7 @@ export default class SearchByName extends React.Component {
    handleChange(event) {
       this.setState({ 
          value: event.target.value
-      }, () => {
+      }, function() {
          this.props.getValue(this.state.value)
       })
    }
@@ -40,13 +40,13 @@ export default class SearchByName extends React.Component {
             <input
                type="text"
                placeholder="Search By Name"
-               className="d-block col-sm p-0 rounded border p-2"
+               className="d-block col-sm-5 p-0 rounded border p-2"
                value={this.state.value}
                onChange={this.handleChange.bind(this)}
             />
-            <div className="px-2 shadow">
+            {/*<div className="px-2 shadow">
                {(this.state.array === []) && this.renderList()}
-            </div>
+            </div>*/}
          </Fragment>
       )
    }

@@ -6,7 +6,6 @@ import Aside from './Aside/aside'
 import { ItemProvider } from '../../context/context'
 import { withRouter } from 'react-router-dom';
 
-
 class Home extends Component {
    constructor(props) {
       super(props);
@@ -14,6 +13,8 @@ class Home extends Component {
          data: '',
          char: '',
          backup: '',
+         user: '',
+         loggedIn: false,
       }
       this.backUpData = this.state.data;
    }
@@ -24,6 +25,18 @@ class Home extends Component {
 
       if (response.status !== 200) throw Error(body.message);
       return body;
+   }
+
+   async componentWillMount() {
+      const userId = await fetch(`/${window.location.pathname.split('/')[1]}`);
+      const userResponse = await userId.json();
+
+      console.log(userResponse);
+
+      this.setState({
+         user: userResponse.user[0],
+         loggedIn: userResponse.user[0].loggedIn,
+      })
    }
 
    componentDidMount() {
@@ -41,8 +54,16 @@ class Home extends Component {
    }
 
    logout() {
-      localStorage.clear();
-      this.props.history.push('/');
+      let XHTTP = new XMLHttpRequest();
+      XHTTP.open('POST', '/login.js', true);
+      XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      XHTTP.onreadystatechange = () => {
+         if (XHTTP.readyState === 4 && XHTTP.status === 200) {
+            let response = JSON.parse(XHTTP.responseText);
+            console.log(response);
+         }
+      }
+      XHTTP.send({login_username: this.state.user.username, loggedIn: this.state.user.loggedIn});          
    }
 
    renderErrorMessage() {
@@ -83,14 +104,12 @@ class Home extends Component {
       }      
 
       this.setState({ data: anotherArray });
-
       return;
    }
 
    renderHome() {
-      const { username, firstname, lastname } = JSON.parse(localStorage.getItem('user'));
+      const { firstname, lastname } = this.state.user;
       const { data } = this.state;
-      console.log(data);
 
       return (
          <Fragment>
@@ -99,32 +118,46 @@ class Home extends Component {
                <small onClick={() => this.logout()}>Logout</small>
             </header>
 
-            <div className="container p-0 mx-auto d-flex justify-content-between mt-5">
+            <div className="container p-0 mx-auto mt-5">
 
                <ItemProvider value={{ total: data.length, data: data }}>
                   <Aside getValueForSearch={this.changeCharacter.bind(this)} />
                </ItemProvider>
 
-               <div className="widthAuto border rounded d-flex flex-wrap" style={{ width: '75%' }}>
+               <hr />
+
+               <div className="border rounded d-flex flex-wrap position-relative">
                   {(data !== '') &&
                      data.map((item, i) => {
+                        console.log(item);
                         return (
                            <Fragment key={item._id}>
                               <div
-                                 className="col-sm-3 p-0 rounded border mr-5 mb-4 pointer effect position-relative"
+                                 className="p-0 position-relative mr-3 d-flex justify-content-between mb-4 shadow-sm"
                                  title={`${item.itemName} | ${item.category}`}
                                  onClick={() => this.pushDetails(item)}
-                                 style={{ height: '200px' }}>
-                                 <div className="rounded w-100 h-100">
+                                 style={{ height: '200px', width: '48%' }}>
+                                 <div className="rounded" style={{ width: '35%' }}>
                                     {
                                        (item.imageURL === "")
-                                          ? <div className="w-100 h-100" style={{ backgroundColor: 'aliceblue' }}></div>
+                                          ? <div className="w-100 h-100 bg-white shadow-sm">
+                                             <img
+                                                src="https://images.vexels.com/media/users/3/130737/isolated/preview/eda05fc56dfe940a821c06439bb7d49b-growing-plant-icon-by-vexels.png"
+                                                className="w-100 h-100"
+                                                alt="" 
+                                             />
+                                          </div>
                                           : <img src={item.imageURL} className="w-100 h-100" alt={item.itemName} />
                                     }
                                  </div>
-                                 <div className="d-flex justify-content-between position-absolute bg-white px-2 py-1 shadow" style={{ bottom: '10%', marginLeft: '25%', borderRadius: '20px' }}>
-                                    <h5 className="m-0 p-0" style={{ fontSize: 'medium' }}>{item.itemName}</h5>
-                                    <img src={item.categoryLogo} width="15" height="15" alt={item.category} className="align-self-center" />
+                                 <div className="" style={{ width: '65%', backgroundColor: '#FFF5F5' }}>
+                                    <div className="p-3">
+                                       <div className="d-flex justify-content-between">
+                                          <h4 className="m-0 p-0">{item.itemName}</h4>
+                                          <img src='https://simpleicon.com/wp-content/uploads/pencil-256x256.png' width='20' height='20' className="align-self-center" alt="" />
+                                       </div>
+                                       <p className="p-0 m-0 mt-3" style={{ fontSize: 'small', overflow: 'hidden', height: '118px' }}>{item.description}</p>
+                                    </div>
                                  </div>
                               </div>
                            </Fragment>
@@ -140,15 +173,7 @@ class Home extends Component {
    }
 
    render() {
-      return (
-         <Fragment>
-            {
-               (Boolean(JSON.parse(localStorage.getItem('user'))))
-                  ? this.renderHome()
-                  : this.renderErrorMessage()
-            }
-         </Fragment>
-      )
+      return this.state.loggedIn ? this.renderHome() : this.renderErrorMessage();
    }
 }
 

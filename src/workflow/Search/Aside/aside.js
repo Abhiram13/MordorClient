@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TotalItems from './totalItems'
 import SearchByName from './searchByName'
 
 export default function Aside(props) {
-   useEffect(function() {
-      //
-   });
    return (      
-      <aside className="border rounded" style={{ width: '22%' }}>
+      <aside className="d-flex justify-content-between">
          <TotalItems />
-         <SearchByName getValue={props.getValueForSearch} />
+         <SearchByName getValue={props.getValueForSearch} />         
       </aside>
    )
 }

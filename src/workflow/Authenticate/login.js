@@ -12,6 +12,7 @@ function sendLoginCred(login, password, props) {
       props.credentials({
          login_username: login,
          login_password: password,
+         loggedIn: true,
       });
    }
 
@@ -21,14 +22,9 @@ function sendLoginCred(login, password, props) {
 function Login(props) {
    const [login_username, updateUserName] = useState('');
    const [login_password, updatePassword] = useState('');
-   const d = useRef();
-
-   useEffect(function() {
-      props.getData(d);      
-   }, []);
 
    return (
-      <div className="container pt-5" ref={d}>
+      <div className="container pt-5">
          <div className="col-sm-6 p-0 mx-auto rounded shadow">
             <div className="p-3">
                <h4 className="pt-2">Login</h4>
