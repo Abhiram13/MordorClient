@@ -133,7 +133,7 @@ class Home extends Component {
                         return (
                            <Fragment key={item._id}>
                               <div
-                                 className="p-0 position-relative mr-3 d-flex justify-content-between mb-4 shadow-sm"
+                                 className="p-0 position-relative mr-3 d-flex justify-content-between mb-4 shadow-sm pointer"
                                  title={`${item.itemName} | ${item.category}`}
                                  onClick={() => this.pushDetails(item)}
                                  style={{ height: '200px', width: '48%' }}>
