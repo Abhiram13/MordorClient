@@ -27,7 +27,7 @@ class Home extends Component {
       return body;
    }
 
-   async componentWillMount() {
+   async isUserLogin() {
       const userId = await fetch(`/${window.location.pathname.split('/')[1]}`);
       const userResponse = await userId.json();
 
@@ -40,6 +40,7 @@ class Home extends Component {
    }
 
    componentDidMount() {
+      this.isUserLogin();
       this.callBackendAPI().then((response) =>
          this.setState({ 
             data: response.documents,
@@ -173,6 +174,9 @@ class Home extends Component {
    }
 
    render() {
+      /**
+       * When user logs in, @function renderHome Component will get loaded
+       */
       return this.state.loggedIn ? this.renderHome() : this.renderErrorMessage();
    }
 }

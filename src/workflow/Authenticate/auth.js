@@ -1,7 +1,8 @@
 import React, { Fragment, createRef } from 'react'
 import { withRouter } from 'react-router-dom';
-import Login from './login'
-import SignUp from './signin'
+import Login from './login';
+import SignUp from './signin';
+import { postRequest } from '../../helpers/helper';
 
 /**
  * @class Auth 
@@ -19,17 +20,22 @@ class Auth extends React.Component {
       }
    }
 
-   componentWillMount() {
-      localStorage.getItem('user') && this.props.history.push('/home')
-   }
-
    /**
     * @param {object} loginCredentials - state object of @function Login Component
     * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state
-    * and once the state is updated, it calls @function postLoginRequest
+    * and once the state is updated, it calls @function postRequest
     */
    getLoginCredentials(loginCredentials) {
-      this.setState({ loginData: loginCredentials }, () => this.postLoginRequest('post', '/login.js', this.state.loginData));
+      this.setState({ loginData: loginCredentials }, () => {
+         postRequest('post', './login.js', this.state.loginData, (XHTTP) => {
+            let response = JSON.parse(XHTTP.responseText);
+            if (response.access) {
+               this.props.history.push(`${response.document[0]._id}/home`);
+            } else {
+               alert('Incorrect Username or Password');
+            }
+         });
+      })
    }
 
    /**
@@ -46,7 +52,13 @@ class Auth extends React.Component {
     * and once the state is updated, it calls @function postSignInRequest
     */
    getSignUpCredentials(signInCredentials) {
-      this.setState({ signData: signInCredentials }, () => this.postSignInRequest('post', '/signIn.js', this.state.signData));
+      this.setState({ signData: signInCredentials }, () => {
+         postRequest('post', './signIn.js', this.state.signData, (XHTTP) => {
+            let response = JSON.parse(XHTTP.responseText);
+            alert((response.status) ? 'User has been Registered Successfully' : 'User has already been Registered');
+            this.setState({ userExist: true });
+         });
+      });
    }
 
    /**
@@ -55,37 +67,6 @@ class Auth extends React.Component {
     */
    existingUser(a) {
       this.setState({ userExist: a })
-   }
-
-   postLoginRequest(method, url, data) {
-      let XHTTP = new XMLHttpRequest();
-      XHTTP.open(method, url, true);
-      XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      XHTTP.onreadystatechange = () => {
-         if (XHTTP.readyState === 4 && XHTTP.status === 200) {
-            let response = JSON.parse(XHTTP.responseText);
-            if (response.access) {
-               this.props.history.push(`${response.document[0]._id}/home`);
-            } else {
-               alert('Incorrect Username or Password');
-            }            
-         }
-      }
-      XHTTP.send(JSON.stringify(data));
-   }
-
-   postSignInRequest(method, url, data) {
-      let XHTTP = new XMLHttpRequest();
-      XHTTP.open(method, url, true);
-      XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      XHTTP.onreadystatechange = () => {
-         if (XHTTP.readyState === 4 && XHTTP.status === 200) {
-            let response = JSON.parse(XHTTP.responseText);
-            alert((response.status) ? 'User has been Registered Successfully' : 'User has already been Registered');
-            this.setState({ userExist: true });      
-         }
-      }
-      XHTTP.send(JSON.stringify(data));
    }
 
    getRefData(a) {
@@ -98,13 +79,13 @@ class Auth extends React.Component {
       return (
          <Fragment>
             {
-               (this.state.userExist)
+               this.state.userExist
                   ? <Login getData={this.getRefData.bind(this)} credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
                   : <SignUp create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />
             }
          </Fragment>
       );
-   }   
+   }
 }
 
 export default withRouter(Auth);
