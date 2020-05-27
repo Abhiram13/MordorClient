@@ -1,4 +1,5 @@
 import React from 'react';
+import request from '../../helpers/helper';
 
 class Form extends React.Component {
    constructor(props) {
@@ -10,13 +11,9 @@ class Form extends React.Component {
          imageURL: '',
          rating: 0,
       }
-      this.changeValue = this.changeValue.bind(this);
    }
 
-   /**
-    * @param {object} event - returns the element by id which triggered the Event
-    */
-   changeValue = event => {
+   changeValue = (event) => {
       switch (event.target.id) {
          case 'ItemName':
             this.setState({
@@ -42,22 +39,20 @@ class Form extends React.Component {
             this.setState({
                description: event.target.value,
             });
-            break;         
+            break;
          default:
             return null;
       }
    }
 
    addData() {
-      let XHTTP = new XMLHttpRequest();
-      XHTTP.open('post', '/item.js', true);
-      XHTTP.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      XHTTP.onreadystatechange = () => {
-         if (XHTTP.readyState === 4 && XHTTP.status === 200) {
-            //
-         }
-      }
-      XHTTP.send(JSON.stringify(this.state));
+      request.post('item.js', this.state, (xhttp) => {
+         const responseText = JSON.parse(xhttp.responseText);
+         const status = responseText.status;
+
+         alert(status ? 'Item has been Successfully Saved' : 'Item has already been Saved');
+         window.location.reload();
+      })
    }
 
    render() {

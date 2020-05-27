@@ -1,8 +1,7 @@
-/* eslint-disable react/no-direct-mutation-state */
 import React, { Fragment } from 'react';
+import Input from '../../../helpers/input';
 
-//This is React Hooks Branch
-export default class SearchByName extends React.Component {
+class SearchByName extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -12,18 +11,16 @@ export default class SearchByName extends React.Component {
       }
    }
 
-   handleChange(event) {
-      this.setState({ 
-         value: event.target.value
-      }, function() {
-         this.props.getValue(this.state.value)
-      })
+   handleChange(value) {
+      this.setState({
+         value: value,
+      }, () => this.props.getValue(this.state.value));
    }
 
    renderList() {
       return (
          <Fragment>
-            {(this.state.value === '') &&
+            {(this.state.value !== '') &&
                this.state.array.map((item, i) => {
                   return (
                      <li key={item._id} style={{ listStyleType: 'none' }} className="p-2 border-bottom pointer effect">{item.itemName}</li>
@@ -35,19 +32,8 @@ export default class SearchByName extends React.Component {
    }
 
    render() {
-      return (
-         <Fragment>
-            <input
-               type="text"
-               placeholder="Search By Name"
-               className="d-block col-sm-5 p-0 rounded border p-2"
-               value={this.state.value}
-               onChange={this.handleChange.bind(this)}
-            />
-            {/*<div className="px-2 shadow">
-               {(this.state.array === []) && this.renderList()}
-            </div>*/}
-         </Fragment>
-      )
+      return <Input type="text" placeholder="Search" class="d-block col-sm-3 p-0 box_shadow border p-2 radius" value={this.handleChange.bind(this)} id="search" />
    }
 }
+
+export default SearchByName;

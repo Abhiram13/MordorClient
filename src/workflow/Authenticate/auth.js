@@ -1,8 +1,8 @@
-import React, { Fragment, createRef } from 'react'
+import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom';
 import Login from './login';
-import SignUp from './signin';
-import { postRequest } from '../../helpers/helper';
+import SignIn from './signin';
+import request from '../../helpers/helper';
 
 /**
  * @class Auth 
@@ -15,8 +15,7 @@ class Auth extends React.Component {
       this.state = {
          loginData: '',
          signData: '',
-         userExist: true, // tells if user exists or not
-         refDatafromChild: '',
+         userExist: true, // tells if user exists or not         
       }
    }
 
@@ -27,8 +26,8 @@ class Auth extends React.Component {
     */
    getLoginCredentials(loginCredentials) {
       this.setState({ loginData: loginCredentials }, () => {
-         postRequest('post', './login.js', this.state.loginData, (XHTTP) => {
-            let response = JSON.parse(XHTTP.responseText);
+         request.post('/login.js', this.state.loginData, (XHTTP) => {
+            const response = JSON.parse(XHTTP.responseText);
             if (response.access) {
                this.props.history.push(`${response.document[0]._id}/home`);
             } else {
@@ -53,8 +52,8 @@ class Auth extends React.Component {
     */
    getSignUpCredentials(signInCredentials) {
       this.setState({ signData: signInCredentials }, () => {
-         postRequest('post', './signIn.js', this.state.signData, (XHTTP) => {
-            let response = JSON.parse(XHTTP.responseText);
+         request.post('/signIn.js', this.state.signData, (XHTTP) => {
+            const response = JSON.parse(XHTTP.responseText);
             alert((response.status) ? 'User has been Registered Successfully' : 'User has already been Registered');
             this.setState({ userExist: true });
          });
@@ -69,20 +68,28 @@ class Auth extends React.Component {
       this.setState({ userExist: a })
    }
 
-   getRefData(a) {
-      this.setState({
-         refDatafromChild: a,
-      });
-   }
-
    render() {
       return (
          <Fragment>
-            {
-               this.state.userExist
-                  ? <Login getData={this.getRefData.bind(this)} credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
-                  : <SignUp create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />
-            }
+            <div className="row" style={{ height: '-webkit-fill-available' }}>
+               <section className="col-sm-6 p-0 m-0 position-relative">
+                  <div className="col-sm-8 p-0 m-0 position-absolute" style={{ top: '40%', left: '10%' }}>
+                     <h1 className="m-0" style={{ fontSize: '3.4rem' }}><strong className="text-white">Welcome User,</strong></h1>
+                     <p className="m-0 p-0 text-white">
+                        {this.state.userExist ? 'Please Login to your Account' : 'Please Create your Account'}
+                     </p>
+                  </div>
+               </section>
+               <section className="col-sm-6 p-0 m-0 position-relative">
+                  <div className="col-sm-7 p-0 mx-auto position-absolute bg-white box_shadow" style={{ top: '17%', left: '25%', borderRadius: '18px', height: '450px' }}>
+                     {
+                        this.state.userExist
+                           ? <Login credentials={this.getLoginCredentials.bind(this)} newUser={this.createUser.bind(this)} />
+                           : <SignIn create={this.getSignUpCredentials.bind(this)} exist={this.existingUser.bind(this)} />
+                     }
+                  </div>
+               </section>
+            </div>
          </Fragment>
       );
    }

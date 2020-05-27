@@ -1,70 +1,62 @@
 body {
-   font-family: segoe-regular;
+   font-family: 'Hind', sans-serif;
+   height: 100%;
+   background-color: #E5D6BF;
 }
 
-.shadow {
-   box-shadow: 1px 1px 18px -7px;
+html {
+   height: 100%;
+}
+
+.box_shadow {
+   box-shadow: 0 0 32px -18px;
+}
+
+.inputField {
+   text-align: center;
+}
+
+.inputField::placeholder {
+   text-align: center;
+   color: #D0D0D0;
+}
+
+.loginGreen {
+   background-color: #449D44;
+}
+
+.loginColor {
+   color: #449D44;
+}
+
+.lightGrey {
+   color: #C3C3C3;
+}
+
+.radius {
+   border-radius: 9px;
+}
+
+.signinBlue {
+   background-color: #3086FC;
+}
+
+.signinColor {
+   color: #3086FC;
+}
+
+.greenishBlue {
+   background-color: #55BAB6;
 }
 
 .pointer {
-   cursor: pointer;
+   cursor: pointer !important;
 }
 
-.effect {
-   transition: 0.2s;
+.itemTitle {
+   transition: 0.3s;
 }
 
-.effect:hover {
-   background-color: #d7f5fa !important;
-   box-shadow: 0px 0px 28px #d8d8d8 !important;
-   transform: scale(1.05) !important;
-}
-
-@media only screen and (max-width: 500px) {
-   .widthAuto {
-      width: auto !important;
-   }
-
-   .widthAuto .ml30 {
-      margin-left: 30px !important;
-   }
-   .inherit {
-      display: initial !important;
-   }
-
-   aside { display: none !important; }
-
-   .inherit h2 {
-      margin-top: 30px !important;
-   }
-}
-
-/* SEGOE FONTS */
-
-@font-face {
-   font-family: segoe-regular;
-   font-weight: 400;
-   font-style: normal;
-   src: url('../Fonts/Segoe/Segoe\ UI.ttf');
-}
-
-@font-face {
-   font-family: segoe-regular;
-   font-weight: 400;
-   font-style: italic;
-   src: url('../Fonts/Segoe/Segoe\ UI\ Italic.ttf');
-}
-
-@font-face {
-   font-family: segoe-regular;
-   font-weight: 700;
-   font-style: normal;
-   src: url('../Fonts/Segoe/Segoe\ UI\ Bold.ttf');
-}
-
-@font-face {
-   font-family: segoe-regular;
-   font-weight: 700;
-   font-style: italic;
-   src: url('../Fonts/Segoe/Segoe\ UI\ Bold\ Italic.ttf');
+.itemTitle:hover {
+   color: deepskyblue;
 }
