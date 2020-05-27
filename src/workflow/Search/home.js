@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import request from '../../helpers/helper';
 import { ItemProvider } from '../../context/context';
 import Aside from './Aside/aside';
-// import View from './viewModal';
-// import Edit from './editModal';
 import Header from './Header/header';
 
 class Home extends React.Component {
@@ -68,12 +66,6 @@ class Home extends React.Component {
 
       this.setState({ data: anotherArray });
       return;
-   }
-
-   deleteItem = (item) => {
-      request.post('deleteItem.js', item, (xhttp) => {
-         //
-      })
    }
 
    like = (item) => {
@@ -169,10 +161,6 @@ class Home extends React.Component {
                                     </section>
                                  </section>
                               </section>
-
-                              {/* MODAL */}
-                              {/* <View item={item} />
-                              <Edit item={item} /> */}
                            </Fragment>
                         )
                      })
