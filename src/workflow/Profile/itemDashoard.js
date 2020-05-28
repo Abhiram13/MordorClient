@@ -18,7 +18,6 @@ export default class ItemDashboard extends React.Component {
    }
 
    render() {
-      console.log(this.state.items);
       return (
          <Fragment>
             {

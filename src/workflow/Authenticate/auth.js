@@ -26,7 +26,7 @@ class Auth extends React.Component {
     */
    getLoginCredentials(loginCredentials) {
       this.setState({ loginData: loginCredentials }, () => {
-         request.post('/login.js', this.state.loginData, (XHTTP) => {
+         request.post('login.js', this.state.loginData, (XHTTP) => {
             const response = JSON.parse(XHTTP.responseText);
             if (response.access) {
                this.props.history.push(`${response.document[0]._id}/home`);
@@ -52,7 +52,7 @@ class Auth extends React.Component {
     */
    getSignUpCredentials(signInCredentials) {
       this.setState({ signData: signInCredentials }, () => {
-         request.post('/signIn.js', this.state.signData, (XHTTP) => {
+         request.post('signIn.js', this.state.signData, (XHTTP) => {
             const response = JSON.parse(XHTTP.responseText);
             alert((response.status) ? 'User has been Registered Successfully' : 'User has already been Registered');
             this.setState({ userExist: true });
