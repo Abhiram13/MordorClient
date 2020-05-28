@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import Input from '../../helpers/input';
 import request from '../../helpers/helper';
 
-export default class UserProfile extends React.Component {
+class UserProfile extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -58,6 +59,14 @@ export default class UserProfile extends React.Component {
       }
    }
 
+   deleteUser() {
+      request.post(`deleteUser.js`, { id: this.state.user._id });
+      alert('User Deleted Successfully');
+      this.props.history.push({
+         pathname: '/'
+      });
+   }
+
    render() {
       return (
          <Fragment>
@@ -70,7 +79,7 @@ export default class UserProfile extends React.Component {
                   </div>
                   <div className="col-sm-2 mx-auto mt-4 p-0 d-flex justify-content-between">
                      <button className="btn btn-info btn-sm col-sm-5" onClick={() => this.saveUser()}>Save</button>
-                     <button className="btn btn-danger btn-sm col-sm-5">Delete</button>
+                     <button className="btn btn-danger btn-sm col-sm-5" onClick={() => this.deleteUser()}>Delete</button>
                   </div>
                </div>
             }
@@ -78,3 +87,5 @@ export default class UserProfile extends React.Component {
       )
    }
 }
+
+export default withRouter(UserProfile);
