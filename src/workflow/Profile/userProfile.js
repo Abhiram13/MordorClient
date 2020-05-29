@@ -68,23 +68,27 @@ class UserProfile extends React.Component {
    }
 
    render() {
-      return (
-         <Fragment>
-            {
-               this.state.user &&
-               <div className="col-sm p-0 mx-auto">
-                  <div className="col-sm p-0 d-flex justify-content-between">
-                     <Input class="col-sm-5 p-0" id="firstname" type="text" placeholder={this.state.user.firstname} value={this.getFirstname.bind(this)} />
-                     <Input class="col-sm-5 p-0" id="lastname" type="text" placeholder={this.state.user.lastname} value={this.getLastname.bind(this)} />
+      try {
+         return (
+            <Fragment>
+               {
+                  this.state.user &&
+                  <div className="col-sm p-0 mx-auto">
+                     <div className="col-sm p-0 d-flex justify-content-between">
+                        <Input class="col-sm-5 p-0" id="firstname" type="text" placeholder={this.state.user.firstname} value={this.getFirstname.bind(this)} />
+                        <Input class="col-sm-5 p-0" id="lastname" type="text" placeholder={this.state.user.lastname} value={this.getLastname.bind(this)} />
+                     </div>
+                     <div className="col-sm-2 mx-auto mt-4 p-0 d-flex justify-content-between">
+                        <button className="btn btn-info btn-sm col-sm-5" onClick={() => this.saveUser()}>Save</button>
+                        <button className="btn btn-danger btn-sm col-sm-5" onClick={() => this.deleteUser()}>Delete</button>
+                     </div>
                   </div>
-                  <div className="col-sm-2 mx-auto mt-4 p-0 d-flex justify-content-between">
-                     <button className="btn btn-info btn-sm col-sm-5" onClick={() => this.saveUser()}>Save</button>
-                     <button className="btn btn-danger btn-sm col-sm-5" onClick={() => this.deleteUser()}>Delete</button>
-                  </div>
-               </div>
-            }
-         </Fragment>
-      )
+               }
+            </Fragment>
+         )
+      } catch (e) {
+         console.log(e);
+      }
    }
 }
 

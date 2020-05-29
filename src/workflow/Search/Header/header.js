@@ -16,20 +16,24 @@ const Header = () => {
       })
    }, []);
 
-   return (
-      <header>
-         <div className="container mx-auto m-0 p-0">
-            <div className="d-flex justify-content-between py-3">
-               <section>Welcome, {user.firstname} {user.lastname}</section>
-               <section className="d-flex justify-content-between col-sm-3 p-0">
-                  <span className="pointer" onClick={() => redirect(`/${user._id}/home`)}>Home</span>
-                  <span className="pointer" onClick={() => redirect(`/${user._id}/profile`)}>Profile</span>
-                  <span className="pointer">Log Out</span>
-               </section>
+   try {
+      return (
+         <header>
+            <div className="container mx-auto m-0 p-0">
+               <div className="d-flex justify-content-between py-3">
+                  <section>Welcome, {user.firstname} {user.lastname}</section>
+                  <section className="d-flex justify-content-between col-sm-3 p-0">
+                     <span className="pointer" onClick={() => redirect(`/${user._id}/home`)}>Home</span>
+                     <span className="pointer" onClick={() => redirect(`/${user._id}/profile`)}>Profile</span>
+                     <span className="pointer">Log Out</span>
+                  </section>
+               </div>
             </div>
-         </div>
-      </header>
-   )
+         </header>
+      )
+   } catch (e) {
+      window.location.assign('/');
+   }
 }
 
 export default Header;
