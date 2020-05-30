@@ -9,9 +9,20 @@ import request from '../../helpers/helper';
  * Holds Login and Sign In Components
  * and access server to pass the credentials and push to new route
  */
+
+ /**
+  * @typedef State
+  * @property {string} loginData
+  * @property {string} [signData]
+  * @property {boolean} userExist
+  * @exports State
+  */
 class Auth extends React.Component {
    constructor(props) {
       super(props);
+      /**
+       * @type {State}
+       */
       this.state = {
          loginData: '',
          signData: '',
@@ -21,8 +32,7 @@ class Auth extends React.Component {
 
    /**
     * @param {object} loginCredentials - state object of @function Login Component
-    * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state
-    * and once the state is updated, it calls @function postRequest
+    * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state.    
     */
    getLoginCredentials(loginCredentials) {
       this.setState({ loginData: loginCredentials }, () => {
@@ -68,6 +78,9 @@ class Auth extends React.Component {
       this.setState({ userExist: a })
    }
 
+   /**
+    * @returns {React.ReactNode}
+    */
    render() {
       return (
          <Fragment>

@@ -5,13 +5,58 @@ import { ItemProvider } from '../../context/context';
 import Aside from './Aside/aside';
 import Header from './Header/header';
 
+/**
+  * @typedef LikedbyUser
+  * @property {string} [firstname]
+  * @property {string} [lastname]
+  * @property {string} [username]
+  */
+
+/**
+ * @typedef Item
+ * @property {string} [_id]
+ * @property {string} [category]
+ * @property {string} [categoryLogo]
+ * @property {array} [comments]
+ * @property {string} [description]
+ * @property {string} [imageURL]
+ * @property {string} [itemName]
+ * @property {LikedbyUser[]} [likes]
+ * @property {number} [rating]
+ */
+
+ /**
+  * @typedef State
+  * @property {Item[]} data
+  * @property {string} char
+  * @property {Item[]} backup
+  * @property {User} user
+  * @property {boolean} loggedIn
+  */
+
+  /**
+   * @typedef User
+   * @property {string} [_id]
+   * @property {array} [comments]
+   * @property {string} [firstname]
+   * @property {boolean} [isAdmin]
+   * @property {string} [lastname]
+   * @property {string[]} [likes]
+   * @property {boolean} [loggedIn]
+   * @property {string} [password]
+   * @property {string} [username]
+   */
+
 class Home extends React.Component {
    constructor(props) {
       super(props);
+      /**
+       * @type {State}
+       */
       this.state = {
-         data: '',
+         data: [],
          char: '',
-         backup: '',
+         backup: [],
          user: {},
          loggedIn: false,
       }
@@ -20,6 +65,7 @@ class Home extends React.Component {
    componentDidMount() {
       //this below function calls server to get the details of User through UserID
       request.get(`${window.location.pathname.split('/')[1]}/home`).then((response) => {
+         console.log(response);
          this.setState({
             user: response[0],
          })
@@ -34,8 +80,19 @@ class Home extends React.Component {
       )
    }
 
+   /**    
+    * @param {string} character 
+    * @returns {void}
+    */
    changeCharacter(character) {
+      /**
+       * @type {object}
+       */
       let array = this.state.backup;
+
+      /**
+       * @type {Array}
+       */
       let anotherArray = [];
 
       if (character === '') {
@@ -68,6 +125,10 @@ class Home extends React.Component {
       return;
    }
 
+   /**
+    * @param {Item} item
+    * @returns {void}
+    */
    like = (item) => {
       const obj = {
          item: item,
@@ -90,6 +151,10 @@ class Home extends React.Component {
       })
    }
 
+   /**
+    * @param {Item} item
+    * @returns {void}
+    */
    itemDetails = (item) => {
       const user = this.state.user;
       if (user.isAdmin) {
@@ -98,6 +163,11 @@ class Home extends React.Component {
       }
    }
 
+   /**
+    * @param {Item} item
+    * @param {string} userId
+    * @returns {boolean}
+    */
    findLikedItem = (item, userId) => {
       for (let i = 0; i < item.likes.length; i++) {
          if (userId === item.likes[i].username) {
@@ -105,7 +175,7 @@ class Home extends React.Component {
          }
       }
       return false;
-   } 
+   }
 
    render() {
       const { data } = this.state;
@@ -114,6 +184,9 @@ class Home extends React.Component {
          data: data,
       }
 
+      /**
+       * @type {string}
+       */
       const userId = window.location.pathname.split('/')[1];
 
       return (
@@ -127,7 +200,8 @@ class Home extends React.Component {
                <hr />
 
                <div className="d-flex flex-wrap position-relative justify-content-between">
-                  {(data !== '') &&
+                  {
+                     (data !== []) &&
                      data.map((item, i) => {
                         return (
                            <Fragment key={item._id}>
@@ -152,10 +226,10 @@ class Home extends React.Component {
                                     <section className="d-flex justify-content-between px-3 my-2">
                                        <small className="pointer" onClick={() => this.like(item)}>
                                           {
-                                             this.findLikedItem(item, userId) 
-                                             ? <span style={{ color: '#FF1968' }}>Liked: {item.likes.length}</span>
-                                             : <span>Like: {item.likes.length}</span>
-                                          }                                          
+                                             this.findLikedItem(item, userId)
+                                                ? <span style={{ color: '#FF1968' }}>Liked: {item.likes.length}</span>
+                                                : <span>Like: {item.likes.length}</span>
+                                          }
                                        </small>
                                        {/* <small>Comment</small> */}
                                     </section>
@@ -165,7 +239,6 @@ class Home extends React.Component {
                         )
                      })
                   }
-                  
                </div>
 
             </div>
