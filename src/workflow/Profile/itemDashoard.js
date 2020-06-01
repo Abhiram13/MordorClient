@@ -74,7 +74,7 @@ export default class ItemDashboard extends React.Component {
                      this.state.user.isAdmin && 
                      <Fragment>
                         <button onClick={() => this.delete()}>Delete Item</button>
-                        <button>Add Item</button>                        
+                        <button onClick={() => window.location.assign('/add')}>Add Item</button>                        
                      </Fragment>                     
                   }
 
