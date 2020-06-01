@@ -157,10 +157,8 @@ class Home extends React.Component {
     */
    itemDetails = (item) => {
       const user = this.state.user;
-      if (user.isAdmin) {
-         this.props.history.push(`/${user._id}_${item._id}/details`);
-         return;
-      }
+      this.props.history.push(`/${user._id}_${item._id}/details`);
+      return;
    }
 
    /**
@@ -242,7 +240,6 @@ class Home extends React.Component {
                </div>
 
             </div>
-            {this.state.user.isAdmin && <button onClick={() => this.props.history.push('/add')}>Add</button>}
          </Fragment>
       )
    }

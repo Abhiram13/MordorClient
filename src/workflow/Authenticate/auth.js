@@ -14,8 +14,7 @@ import request from '../../helpers/helper';
   * @typedef State
   * @property {string} loginData
   * @property {string} [signData]
-  * @property {boolean} userExist
-  * @exports State
+  * @property {boolean} userExist  
   */
 class Auth extends React.Component {
    constructor(props) {

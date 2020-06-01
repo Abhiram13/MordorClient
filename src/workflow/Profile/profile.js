@@ -24,9 +24,9 @@ const Profile = () => {
          <Header />
          <div className="container p-0 m-0 mx-auto mt-5">
             <div className="d-flex justify-content-between col-sm-9 p-0 mx-auto">
-               <h5 onClick={() => setTab()}><strong>Profile</strong></h5>
-               <h5 onClick={() => setTab('User Dashboard')}><strong>User Dashboard</strong></h5>
-               <h5 onClick={() => setTab('Item Dashboard')}><strong>Item Dashboard</strong></h5>
+               <h5 className="pointer" onClick={() => setTab('')}><strong>Profile</strong></h5>
+               <h5 className="pointer" onClick={() => setTab('User Dashboard')}><strong>User Dashboard</strong></h5>
+               <h5 className="pointer" onClick={() => setTab('Item Dashboard')}><strong>Item Dashboard</strong></h5>
             </div>
             {tabContent(tab)}
          </div>
