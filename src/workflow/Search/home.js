@@ -190,7 +190,7 @@ class Home extends React.Component {
       /**
        * @type {string}
        */
-      const userId = window.location.pathname.split('/')[1];
+      const userId = document.cookie.split('=')[1];
 
       return (
          <Fragment>
