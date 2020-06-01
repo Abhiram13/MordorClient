@@ -24,13 +24,13 @@ export default class ItemDashboard extends React.Component {
       })
    }
 
-   delete(event) {
+   selectItems(event) {
       event.persist();      
       var array = this.state.deletableItems;
       var id = event.target.getAttribute('data-id');
 
       if (event.target.nodeName !== 'DIV') return;
-      
+
       if (event.target.getAttribute('data-selected') === 'false') {
          event.target.setAttribute('data-selected', 'true');
          event.target.className = 'd-flex justify-content-between col-sm p-0 bg-primary';
@@ -49,6 +49,21 @@ export default class ItemDashboard extends React.Component {
       }
    }
 
+   delete() {
+      request.post('deleteItem.js', this.state.deletableItems, (xhttp) => {
+         if (xhttp.response === 'true') {
+            request.get('getItem').then((data) => {
+               this.setState({
+                  items: data.documents,
+               })
+            })
+            return;
+         }
+
+         alert('Error has Occured. Please try again later');
+      })
+   }
+
    render() {
       return (
          <Fragment>
@@ -58,7 +73,7 @@ export default class ItemDashboard extends React.Component {
                   {
                      this.state.user.isAdmin && 
                      <Fragment>
-                        <button>Delete Item</button>
+                        <button onClick={() => this.delete()}>Delete Item</button>
                         <button>Add Item</button>                        
                      </Fragment>                     
                   }
@@ -73,7 +88,7 @@ export default class ItemDashboard extends React.Component {
                   {
                         this.state.items.map((item, index) => {
                            return (
-                              <div className="row mb-3" key={item.itemName} onClick={(e) => this.delete(e)}>
+                              <div className="row mb-3" key={item.itemName} onClick={(e) => this.selectItems(e)}>
                                  <div className="d-flex justify-content-between col-sm p-0" data-selected="false" data-id={item._id}>
                                     <p className="p-0 m-0">{index + 1}</p>
                                     <p className="p-0 m-0">{item.itemName}</p>
