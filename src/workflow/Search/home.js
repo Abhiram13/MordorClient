@@ -65,7 +65,7 @@ class Home extends React.Component {
    componentDidMount() {
       let userid = document.cookie.split('=')[1];
 
-      if (userid === 'null') {
+      if (userid === 'null' || document.cookie === '') {
          window.location.assign('/');
          return;
       }

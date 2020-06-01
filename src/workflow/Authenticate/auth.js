@@ -32,7 +32,7 @@ class Auth extends React.Component {
    componentWillMount() {
       let userid = document.cookie.split('=')[1];
 
-      if (userid !== "null") {
+      if (userid !== "null" && document.cookie !== '') {
          this.props.history.push('/home');
          return;
       }
