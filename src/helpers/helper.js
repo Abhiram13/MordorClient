@@ -6,7 +6,7 @@ let request = (function () {
       /**       
        * @param {string} url 
        * @param {object} data 
-       * @param {Function} func 
+       * @param {Function} [func] 
        * @returns {void}
        */
       post: function (url, data, func) {
@@ -38,5 +38,9 @@ let request = (function () {
       }
    }
 })();
+
+export function getUser() {
+   return document.cookie.split('=')[1];
+}
 
 export default request;

@@ -1,22 +1,20 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import Input from '../../helpers/input';
-import request from '../../helpers/helper';
+import request, { getUser } from '../../helpers/helper';
 
 class UserProfile extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         user: '',
+         user: {},
          user_firstname: '',
          user_lastname: '',
       }
    }
 
    componentDidMount() {
-      const user_id = window.location.pathname.split('/')[1];
-
-      request.get(`${user_id}/home`).then(response => {
+      request.get(`${getUser()}/home`).then(response => {
          this.setState({
             user: response[0],
          });

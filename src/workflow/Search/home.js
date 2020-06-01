@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import request from '../../helpers/helper';
+import request, { getUser } from '../../helpers/helper';
 import { ItemProvider } from '../../context/context';
 import Aside from './Aside/aside';
 import Header from './Header/header';
@@ -63,9 +63,14 @@ class Home extends React.Component {
    }
 
    componentDidMount() {
-      //this below function calls server to get the details of User through UserID
-      request.get(`${window.location.pathname.split('/')[1]}/home`).then((response) => {
-         console.log(response);
+      let userid = document.cookie.split('=')[1];
+
+      if (userid === 'null') {
+         window.location.assign('/');
+         return;
+      }
+      //this below function calls server to get the details of User through UserID      
+      request.get(`${getUser()}/home`).then((response) => {         
          this.setState({
             user: response[0],
          })
@@ -180,7 +185,7 @@ class Home extends React.Component {
       const contextObject = {
          total: data.length,
          data: data,
-      }
+      }      
 
       /**
        * @type {string}

@@ -29,6 +29,15 @@ class Auth extends React.Component {
       }
    }
 
+   componentWillMount() {
+      let userid = document.cookie.split('=')[1];
+
+      if (userid !== "null") {
+         this.props.history.push('/home');
+         return;
+      }
+   }
+
    /**
     * @param {object} loginCredentials - state object of @function Login Component
     * @description - This function retrives data(Login Credentials) from Login Component(Child) and changes the state.    
@@ -38,11 +47,13 @@ class Auth extends React.Component {
          request.post('login.js', this.state.loginData, (XHTTP) => {
             const response = JSON.parse(XHTTP.responseText);
             if (response.access) {
-               this.props.history.push(`${response.document[0]._id}/home`);
+               let userId = response.document[0]._id;
+               document.cookie = `userid=${userId}`;
+               this.props.history.push(`/home`);
             } else {
                alert('Incorrect Username or Password');
             }
-         });
+         });         
       })
    }
 

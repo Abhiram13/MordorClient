@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import request from '../../helpers/helper';
+import request, { getUser } from '../../helpers/helper';
 
 export default class ItemDashboard extends React.Component {
    constructor(props) {
@@ -12,10 +12,8 @@ export default class ItemDashboard extends React.Component {
    }
 
    componentDidMount() {
-      const userId = window.location.pathname.split('/')[1];
-
       request.get('getItem').then((data) => {
-         request.get(`${userId}/home`).then((response) => {
+         request.get(`${getUser()}/home`).then((response) => {
             this.setState({
                items: data.documents,
                user: response[0],
